@@ -1,0 +1,68 @@
+{
+  "name": "react-native-image-collage",
+  "version": "0.2.0",
+  "description": "Responsive image collage layouts for React Native with an optional full-screen image viewer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "react-native": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./viewer": {
+      "react-native": "./src/viewer/index.ts",
+      "types": "./dist/viewer/index.d.ts",
+      "default": "./dist/viewer/index.js"
+    },
+    "./expo": {
+      "react-native": "./src/expo/index.tsx",
+      "types": "./dist/expo/index.d.ts",
+      "default": "./dist/expo/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "example": "npm run build && npm install --prefix example && npm run start --prefix example -- --clear"
+  },
+  "keywords": [
+    "react-native",
+    "image",
+    "collage",
+    "gallery",
+    "image-viewer",
+    "expo"
+  ],
+  "author": "Faisal Khawaj",
+  "license": "MIT",
+  "peerDependencies": {
+    "expo-image": ">=1.0.0",
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "react-native-image-viewing": ">=0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "expo-image": {
+      "optional": true
+    },
+    "react-native-image-viewing": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "expo-image": "^3.0.10",
+    "react": "^19.0.0",
+    "react-native": "^0.81.0",
+    "react-native-image-viewing": "^0.2.2",
+    "typescript": "^5.8.0"
+  }
+}

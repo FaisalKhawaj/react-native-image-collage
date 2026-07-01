@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-collage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Facebook/Instagram-style responsive image collage layouts for React Native and Expo — multi-image grids, +N overflow badge, optional full-screen viewer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

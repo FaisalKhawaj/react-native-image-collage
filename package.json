@@ -43,6 +43,14 @@
   ],
   "author": "Faisal Khawaj",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FaisalKhawaj/react-native-image-collage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FaisalKhawaj/react-native-image-collage/issues"
+  },
+  "homepage": "https://github.com/FaisalKhawaj/react-native-image-collage#readme",
   "peerDependencies": {
     "expo-image": ">=1.0.0",
     "react": ">=18.0.0",

@@ -1,5 +1,8 @@
 # react-native-image-collage
 
+[![npm version](https://img.shields.io/npm/v/react-native-image-collage.svg)](https://www.npmjs.com/package/react-native-image-collage)
+[![GitHub issues](https://img.shields.io/github/issues/FaisalKhawaj/react-native-image-collage)](https://github.com/FaisalKhawaj/react-native-image-collage/issues)
+
 An easy-to-use collage layout component for React Native — similar to how **Facebook / Instagram show images in a post**.
 
 Supports **1 to N images**, automatic layouts, `+N` overflow badges, optional full-screen viewer, and works with **React Native CLI** and **Expo**.
@@ -36,6 +39,7 @@ yarn add react-native-image-collage
 - [Image input formats](#image-input-formats)
 - [Exports](#exports)
 - [Local development](#local-development)
+- [Contributing & issues](#contributing--issues)
 - [License](#license)
 
 ---
@@ -556,6 +560,23 @@ Ensure **Expo Go matches SDK 54** on your physical device.
 ```bash
 npm install /path/to/react-native-image-collage
 ```
+
+---
+
+## Contributing & issues
+
+Found a bug, layout glitch, or feature idea? **Open an issue on GitHub:**
+
+**https://github.com/FaisalKhawaj/react-native-image-collage/issues/new/choose**
+
+When reporting a bug, please include:
+
+- React Native / Expo SDK version
+- Platform (iOS, Android, or both)
+- A short code snippet or steps to reproduce
+- Screenshots if it’s a layout problem
+
+Pull requests are welcome. For larger changes, open an issue first so we can align on the approach.
 
 ---
 

@@ -1,0 +1,65 @@
+name: Bug report
+description: Something isn't working or a layout looks wrong
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. The more detail you provide, the faster we can help.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+      placeholder: With 2 images, the second tile is too narrow...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal code or steps to reproduce the issue.
+      placeholder: |
+        1. Install react-native-image-collage@0.2.0
+        2. Pass 2 remote image URLs to ImageCollage
+        3. See uneven tile widths
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "0.2.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - iOS
+        - Android
+        - Both
+        - Web
+    validations:
+      required: true
+
+  - type: input
+    id: rn-version
+    attributes:
+      label: React Native / Expo SDK version
+      placeholder: "RN 0.81 / Expo SDK 54"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Add screenshots if this is a visual/layout issue.
+      placeholder: Drag and drop images here or paste links.

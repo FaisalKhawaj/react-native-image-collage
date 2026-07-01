@@ -38,7 +38,6 @@ yarn add react-native-image-collage
 - [Props](#props)
 - [Image input formats](#image-input-formats)
 - [Exports](#exports)
-- [Local development](#local-development)
 - [Contributing & issues](#contributing--issues)
 - [License](#license)
 
@@ -525,58 +524,13 @@ import {
 
 ---
 
-## Local development
-
-```bash
-git clone <repo>
-cd react-native-image-collage
-npm install
-npm run build
-npm run typecheck
-```
-
-### Example app (manual testing)
-
-An Expo playground lives in `example/`. It is **not** published to npm.
-
-```bash
-npm run example
-# or
-cd example && npm install && npx expo start
-```
-
-Use the on-screen controls to change image count, `maxVisibleImages`, and entry point (`/viewer`, `/expo`).
-
-If you see `private properties are not supported`, stop Metro and run:
-
-```bash
-cd example && npx expo start --clear
-```
-
-Ensure **Expo Go matches SDK 54** on your physical device.
-
-### Link into another app
-
-```bash
-npm install /path/to/react-native-image-collage
-```
-
----
-
 ## Contributing & issues
 
-Found a bug, layout glitch, or feature idea? **Open an issue on GitHub:**
+Found a bug or want to contribute? See the [contributing guide on GitHub](https://github.com/FaisalKhawaj/react-native-image-collage/blob/main/CONTRIBUTING.md) for local setup and the example app.
 
-**https://github.com/FaisalKhawaj/react-native-image-collage/issues/new/choose**
+**Open an issue:** https://github.com/FaisalKhawaj/react-native-image-collage/issues/new/choose
 
-When reporting a bug, please include:
-
-- React Native / Expo SDK version
-- Platform (iOS, Android, or both)
-- A short code snippet or steps to reproduce
-- Screenshots if it’s a layout problem
-
-Pull requests are welcome. For larger changes, open an issue first so we can align on the approach.
+When reporting a bug, include your React Native / Expo version, platform, and steps to reproduce.
 
 ---
 

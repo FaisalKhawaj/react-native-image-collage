@@ -267,9 +267,9 @@ import { CollageWithViewer } from "react-native-image-collage";
 
 ---
 
-### 10. Expo with blurhash & caching
+### 10. Expo with blurhash, caching & built-in viewer
 
-Uses `expo-image` for better performance, disk caching, and blurhash placeholders.
+Uses `expo-image` for collage tiles and includes a **built-in full-screen viewer** (`ExpoImageViewer`) — **no `react-native-image-viewing` required**.
 
 ```bash
 npx expo install react-native-image-collage expo-image
@@ -281,12 +281,28 @@ import { ImageCollageWithViewer } from "react-native-image-collage/expo";
 <ImageCollageWithViewer
   images={photoUrls}
   spacing={2}
+  borderRadius={8}
   blurhash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
   prioritizeFirstImage
+  viewerProps={{
+    showCloseButton: true,
+    showIndexFooter: true,
+    closeButtonLabel: "Close",
+  }}
 />
 ```
 
-> `blurhash` and `prioritizeFirstImage` are only available on the `/expo` entry.
+Collage-only (no viewer):
+
+```tsx
+import { ImageCollage } from "react-native-image-collage/expo";
+
+<ImageCollage images={photoUrls} spacing={2} blurhash={null} />
+```
+
+> **Expo-only props:** `blurhash`, `prioritizeFirstImage`, `prefetchImages`  
+> Set `blurhash={null}` to disable the placeholder.  
+> The `/expo` viewer is a horizontal swipe gallery with `expo-image` — it does **not** support `swipeToCloseEnabled` or `doubleTapToZoomEnabled` (those apply to `/viewer` only).
 
 ---
 
@@ -368,8 +384,10 @@ Optional overrides:
 | Import | Requires | Best for |
 |--------|----------|----------|
 | `react-native-image-collage` | Nothing extra | RN CLI, Expo, custom setups |
-| `react-native-image-collage/viewer` | `react-native-image-viewing` | Built-in full-screen viewer |
-| `react-native-image-collage/expo` | `expo-image` | Blurhash, caching, priority loading |
+| `react-native-image-collage/viewer` | `react-native-image-viewing` | Zoomable viewer via `react-native-image-viewing` |
+| `react-native-image-collage/expo` | `expo-image` | Expo apps — blurhash, caching, built-in `ExpoImageViewer` |
+
+**Expo apps:** prefer `/expo` when you already use `expo-image`. You do **not** need `react-native-image-viewing` for `ImageCollageWithViewer` from `/expo`.
 
 ---
 
@@ -397,8 +415,9 @@ Optional overrides:
 
 ---
 
-### `ImageCollageWithViewer`  
-Import from `react-native-image-collage/viewer`
+### `ImageCollageWithViewer`
+
+Import from **`react-native-image-collage/viewer`** (uses `react-native-image-viewing`) or **`react-native-image-collage/expo`** (uses built-in `ExpoImageViewer` + `expo-image`).
 
 Accepts **all `ImageCollage` props**, plus:
 
@@ -408,7 +427,9 @@ Accepts **all `ImageCollage` props**, plus:
 | `viewerProps` | `object` | — | Props passed to the built-in viewer (see below) |
 | `renderViewer` | `CollageViewerRenderer` | built-in | Replace the default full-screen viewer |
 
-#### `viewerProps`
+#### `viewerProps` — `/viewer` entry
+
+Passed to `react-native-image-viewing`:
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -419,22 +440,34 @@ Accepts **all `ImageCollage` props**, plus:
 | `showIndexFooter` | `boolean` | `true` | Show `1 / N` index footer |
 | `closeButtonLabel` | `string` | `'Close'` | Close button text |
 
+#### `viewerProps` — `/expo` entry
+
+Passed to `ExpoImageViewer` (horizontal swipe gallery):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showCloseButton` | `boolean` | `true` | Show close button header |
+| `showIndexFooter` | `boolean` | `true` | Show `1 / N` index footer (hidden for single image) |
+| `closeButtonLabel` | `string` | `'Close'` | Close button text |
+
 ---
 
 ### `CollageWithViewer`  
-Import from `react-native-image-collage`
+Import from `react-native-image-collage` or `react-native-image-collage/expo`
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `renderViewer` | `CollageViewerRenderer` | **required** | Your gallery / lightbox component |
 | `onImagePress` | `(index: number) => void` | — | Called when a tile is tapped, before viewer opens |
+| `prefetchViewerImages` | `boolean` | `true` | Prefetch full-size images for the viewer |
+| `prefetchImages` | `(uris: string[]) => void` | platform default | Override prefetch strategy |
 
 Plus all `ImageCollage` props.
 
 ---
 
 ### `ImageViewer` (standalone)  
-Import from `react-native-image-collage/viewer`
+Import from `react-native-image-collage/viewer` (`react-native-image-viewing`) or `react-native-image-collage/expo` (`ExpoImageViewer`)
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -442,12 +475,11 @@ Import from `react-native-image-collage/viewer`
 | `visible` | `boolean` | **required** | Whether the viewer is open |
 | `onRequestClose` | `() => void` | **required** | Called when viewer should close |
 | `imageIndex` | `number` | `0` | Initially displayed image |
-| `swipeToCloseEnabled` | `boolean` | `true` | Swipe down to close |
-| `doubleTapToZoomEnabled` | `boolean` | `true` | Double-tap to zoom |
-| `presentationStyle` | `string` | `'fullScreen'` | iOS modal style |
 | `showCloseButton` | `boolean` | `true` | Show close button |
 | `showIndexFooter` | `boolean` | `true` | Show index footer |
 | `closeButtonLabel` | `string` | `'Close'` | Close button label |
+
+`/viewer` also supports `swipeToCloseEnabled`, `doubleTapToZoomEnabled`, and `presentationStyle`.
 
 ---
 
@@ -458,8 +490,9 @@ Available on `ImageCollage` and `ImageCollageWithViewer`:
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `blurhash` | `string` | built-in default | Blurhash placeholder while images load |
-| `prioritizeFirstImage` | `boolean` | `true` | Load the first image with high priority |
+| `blurhash` | `string \| null` | built-in default | Blurhash placeholder while images load. Pass `null` to disable |
+| `prioritizeFirstImage` | `boolean` | `true` | Load visible tiles with high priority on the first image |
+| `prefetchImages` | `(uris: string[]) => void` | `expo-image` prefetch | Override image prefetch for the viewer (`ImageCollageWithViewer` only) |
 
 ---
 
@@ -488,15 +521,17 @@ require("./photo.png")
 | Component | Entry |
 |-----------|-------|
 | `ImageCollage` | `.` / `/expo` |
-| `CollageTile` | `.` |
-| `CollageImage` | `.` |
-| `CollageWithViewer` | `.` |
+| `CollageTile` | `.` / `/expo` |
+| `CollageImage` | `.` / `/expo` |
+| `CollageWithViewer` | `.` / `/expo` |
 | `ImageCollageWithViewer` | `/viewer` / `/expo` |
-| `ImageViewer` | `/viewer` |
+| `ImageViewer` | `/viewer` (`react-native-image-viewing`) |
+| `ExpoImageViewer` | `/expo` |
 
 ### Utilities
 
 ```tsx
+// Main entry
 import {
   normalizeImages,
   resolveImagesWithAspectRatios,
@@ -504,9 +539,18 @@ import {
   getRemoteUri,
   computeLayoutHeight,
   useContainerWidth,
-  createExpoImageRenderer,       // /expo only
-  createDefaultViewerRenderer,   // /viewer only
 } from "react-native-image-collage";
+
+// /viewer entry
+import { createDefaultViewerRenderer } from "react-native-image-collage/viewer";
+
+// /expo entry
+import {
+  createExpoImageRenderer,
+  expoImageRenderer,
+  createExpoViewerRenderer,
+  prefetchExpoImageUris,
+} from "react-native-image-collage/expo";
 ```
 
 ### Constants
@@ -520,6 +564,9 @@ import {
   DEFAULT_MAX_VISIBLE_IMAGES,// 4
   DEFAULT_PLACEHOLDER_COLOR, // #E8E8E8
 } from "react-native-image-collage";
+
+// /expo entry also exports:
+import { DEFAULT_BLURHASH } from "react-native-image-collage/expo";
 ```
 
 ---

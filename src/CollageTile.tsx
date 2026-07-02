@@ -4,6 +4,7 @@ import {
   Pressable,
   StyleProp,
   StyleSheet,
+  View,
   ViewStyle,
   type ImageSourcePropType,
 } from "react-native";
@@ -51,19 +52,24 @@ export const CollageTile = memo(function CollageTile({
         { borderRadius, backgroundColor: placeholderColor },
       ]}
     >
-      {renderCollageImage(
-        {
-          source,
-          remoteUri,
-          priority,
-          transition: transition ?? (Platform.OS === "android" ? 80 : 150),
-        },
-        renderImage,
-      )}
+      <View style={styles.imageContainer} collapsable={false}>
+        {renderCollageImage(
+          {
+            source,
+            remoteUri,
+            priority,
+            transition: transition ?? (Platform.OS === "android" ? 80 : 150),
+          },
+          renderImage,
+        )}
+      </View>
     </Pressable>
   );
 });
 
 const styles = StyleSheet.create({
   tile: { overflow: "hidden", minHeight: 0, minWidth: 0 },
+  imageContainer: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });

@@ -168,3 +168,25 @@ export function toViewerImages(
     })
     .filter((image): image is { uri: string } => image != null);
 }
+
+/** Best-effort prefetch for remote URIs (RN `Image.prefetch`). */
+export function prefetchImageUris(uris: string[]): void {
+  for (const uri of uris) {
+    if (!uri) continue;
+    try {
+      Image.prefetch(uri);
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
+export function prefetchCollageImages(
+  images: CollageImageInput[] | null | undefined,
+): void {
+  prefetchImageUris(
+    normalizeImages(images)
+      .map((image) => image.remoteUri ?? getRemoteUri(image.source))
+      .filter((uri): uri is string => Boolean(uri)),
+  );
+}

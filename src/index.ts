@@ -34,9 +34,17 @@ export {
   normalizeImages,
   measureImageAspectRatio,
   resolveImagesWithAspectRatios,
+  prefetchCollageImages,
+  prefetchImageUris,
   toViewerImages,
   getRemoteUri,
 } from "./utils/imageSources";
 
 export { computeLayoutHeight } from "./utils/layoutHeight";
 export { useContainerWidth } from "./hooks/useContainerWidth";
+export { createVisibleTilesPriority } from "./utils/collageImagePriority";
+export {
+  prefetchWithBestEffort,
+  resolveDefaultImageRenderer,
+  resolveDefaultViewerRenderer,
+} from "./utils/resolveDefaultImageRenderer";

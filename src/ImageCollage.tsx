@@ -19,6 +19,9 @@ import {
   normalizeImages,
   resolveImagesWithAspectRatios,
 } from "./utils/imageSources";
+import { prefetchWithBestEffort } from "./utils/resolveDefaultImageRenderer";
+import { createVisibleTilesPriority } from "./utils/collageImagePriority";
+import { resolveDefaultImageRenderer } from "./utils/resolveDefaultImageRenderer";
 import {
   collageLayoutStyles,
   getCollageLayoutStyle,
@@ -51,9 +54,11 @@ export const ImageCollage = memo(function ImageCollage({
   style,
 }: ImageCollageProps) {
   const effectiveMaxVisible = Math.max(1, maxVisibleImages);
+  const effectiveRenderImage = renderImage ?? resolveDefaultImageRenderer();
+  const effectiveGetImagePriority =
+    getImagePriority ?? createVisibleTilesPriority(effectiveMaxVisible);
   const normalizedImages = useMemo(() => normalizeImages(images), [images]);
   const [resolvedImages, setResolvedImages] = useState(normalizedImages);
-  const [isResolving, setIsResolving] = useState(false);
 
   const { containerWidth, onLayout } = useContainerWidth({
     width,
@@ -63,9 +68,9 @@ export const ImageCollage = memo(function ImageCollage({
   useEffect(() => {
     let cancelled = false;
 
+    setResolvedImages(normalizedImages);
+
     if (!measureAspectRatios) {
-      setResolvedImages(normalizedImages);
-      setIsResolving(false);
       return;
     }
 
@@ -74,28 +79,29 @@ export const ImageCollage = memo(function ImageCollage({
     );
 
     if (!needsMeasurement) {
-      setResolvedImages(normalizedImages);
-      setIsResolving(false);
       return;
     }
 
-    setIsResolving(true);
-    resolveImagesWithAspectRatios(normalizedImages)
-      .then((nextImages) => {
-        if (!cancelled) {
-          setResolvedImages(nextImages);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setIsResolving(false);
-        }
-      });
+    resolveImagesWithAspectRatios(normalizedImages).then((nextImages) => {
+      if (!cancelled) {
+        setResolvedImages(nextImages);
+      }
+    });
 
     return () => {
       cancelled = true;
     };
   }, [measureAspectRatios, normalizedImages]);
+
+  useEffect(() => {
+    if (!normalizedImages.length) return;
+
+    const uris = normalizedImages
+      .map((image) => image.remoteUri)
+      .filter((uri): uri is string => Boolean(uri));
+
+    prefetchWithBestEffort(uris);
+  }, [normalizedImages]);
 
   const layoutHeight = computeLayoutHeight({
     contentWidth: containerWidth,
@@ -109,29 +115,12 @@ export const ImageCollage = memo(function ImageCollage({
     onPress: onImagePress,
     borderRadius,
     placeholderColor,
-    getImagePriority,
-    renderImage,
+    getImagePriority: effectiveGetImagePriority,
+    renderImage: effectiveRenderImage,
   };
 
   if (!resolvedImages.length) {
     return null;
-  }
-
-  if (isResolving && measureAspectRatios) {
-    return (
-      <View
-        onLayout={onLayout}
-        style={[
-          style,
-          {
-            height: layoutHeight,
-            borderRadius,
-            backgroundColor: placeholderColor,
-            overflow: "hidden",
-          },
-        ]}
-      />
-    );
   }
 
   const count = resolvedImages.length;
@@ -160,7 +149,7 @@ export const ImageCollage = memo(function ImageCollage({
         placeholderColor,
         maxVisibleImages: effectiveMaxVisible,
         onImagePress,
-        renderImage,
+        renderImage: effectiveRenderImage,
         sharedTileConfig,
       })}
     </View>

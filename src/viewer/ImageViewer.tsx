@@ -15,10 +15,6 @@ export const ImageViewer = memo(function ImageViewer({
   showIndexFooter = true,
   closeButtonLabel = "Close",
 }: ImageViewerProps) {
-  if (!visible) {
-    return null;
-  }
-
   return (
     <ImageView
       images={images}

@@ -91,15 +91,17 @@ function renderOverflowTile({
         },
       ]}
     >
-      {renderCollageImage(
-        {
-          source: image.source,
-          remoteUri: image.remoteUri,
-          priority: "normal",
-          transition: 0,
-        },
-        renderImage,
-      )}
+      <View style={styles.overflowImageContainer} collapsable={false}>
+        {renderCollageImage(
+          {
+            source: image.source,
+            remoteUri: image.remoteUri,
+            priority: "normal",
+            transition: 0,
+          },
+          renderImage,
+        )}
+      </View>
       {overflowCount > 0 && (
         <View pointerEvents="none" style={styles.overflowOverlay}>
           <Text style={styles.overflowText}>{`+${overflowCount}`}</Text>
@@ -307,6 +309,7 @@ export function getCollageLayoutStyle({
       gap: spacing,
       overflow: "hidden" as const,
       minHeight: 0,
+      flexDirection: "column" as const,
     },
     row: false,
   };
@@ -314,9 +317,12 @@ export function getCollageLayoutStyle({
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row", overflow: "hidden", minHeight: 0, width: "100%" },
-  flexTile: { flex: 1, flexBasis: 0, minWidth: 0, minHeight: 0 },
-  flexColumn: { flex: 1, flexBasis: 0, minWidth: 0, minHeight: 0 },
+  flexTile: { flex: 1, minWidth: 0, minHeight: 0, alignSelf: "stretch" },
+  flexColumn: { flex: 1, minWidth: 0, minHeight: 0 },
   overflowTile: { overflow: "hidden", minHeight: 0, minWidth: 0 },
+  overflowImageContainer: {
+    ...StyleSheet.absoluteFillObject,
+  },
   overflowOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.35)",

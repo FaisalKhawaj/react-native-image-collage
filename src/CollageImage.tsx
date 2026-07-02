@@ -19,7 +19,7 @@ export const CollageImage = memo(function CollageImage({
       source={source}
       resizeMode="cover"
       fadeDuration={transition}
-      style={[StyleSheet.absoluteFill, style]}
+      style={[{ width: "100%", height: "100%" }, style]}
     />
   );
 });

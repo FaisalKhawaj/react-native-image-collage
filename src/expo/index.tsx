@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { ImageCollage as BaseImageCollage } from "../ImageCollage";
+import { CollageWithViewer as BaseCollageWithViewer } from "../CollageWithViewer";
 import type {
   ExpoImageCollageOptions,
   ImageCollageProps,
   ImageCollageWithViewerProps,
-  ImagePriority,
 } from "../types";
-import { ImageCollageWithViewer as BaseImageCollageWithViewer } from "../viewer/ImageCollageWithViewer";
+import { DEFAULT_MAX_VISIBLE_IMAGES } from "../constants";
+import { createExpoViewerRenderer, ExpoImageViewer } from "./ExpoImageViewer";
 import { createExpoImageRenderer } from "./createExpoImageRenderer";
+import { prefetchExpoImageUris } from "./prefetchExpoImages";
+import { createVisibleTilesPriority } from "../utils/collageImagePriority";
 
 export { CollageImage, renderCollageImage } from "../CollageImage";
 export { CollageTile } from "../CollageTile";
 export { CollageWithViewer } from "../CollageWithViewer";
 export { ImageCollage as ImageCollague } from "../ImageCollage";
 export { ImageViewer, createDefaultViewerRenderer } from "../viewer/ImageViewer";
-export { ImageCollageWithViewer as BaseImageCollageWithViewer } from "../viewer/ImageCollageWithViewer";
+export {
+  ExpoImageViewer,
+  createExpoViewerRenderer,
+} from "./ExpoImageViewer";
+export { prefetchExpoImageUris } from "./prefetchExpoImages";
 
 export type {
   CollageImageInput,
@@ -56,15 +63,18 @@ function buildExpoCollageProps({
   prioritizeFirstImage = true,
   renderImage,
   getImagePriority,
+  maxVisibleImages,
   ...props
 }: ExpoCollageProps): ImageCollageProps {
+  const effectiveMaxVisible = Math.max(1, maxVisibleImages ?? DEFAULT_MAX_VISIBLE_IMAGES);
+
   return {
     ...props,
+    maxVisibleImages,
     renderImage: renderImage ?? createExpoImageRenderer({ blurhash }),
     getImagePriority:
       getImagePriority ??
-      ((index: number): ImagePriority =>
-        index === 0 && prioritizeFirstImage ? "high" : "normal"),
+      createVisibleTilesPriority(effectiveMaxVisible, prioritizeFirstImage),
   };
 }
 
@@ -80,10 +90,16 @@ export function ImageCollageWithViewer({
   viewerProps,
   renderViewer,
   onImagePress,
+  prefetchImages = prefetchExpoImageUris,
   ...collageProps
 }: ImageCollageWithViewerProps & ExpoImageCollageOptions) {
+  const defaultExpoViewer = useMemo(
+    () => createExpoViewerRenderer(viewerProps),
+    [viewerProps],
+  );
+
   return (
-    <BaseImageCollageWithViewer
+    <BaseCollageWithViewer
       {...buildExpoCollageProps({
         ...collageProps,
         blurhash,
@@ -91,9 +107,9 @@ export function ImageCollageWithViewer({
         renderImage,
         getImagePriority,
       })}
-      viewerProps={viewerProps}
-      renderViewer={renderViewer}
+      prefetchImages={prefetchImages}
       onImagePress={onImagePress}
+      renderViewer={renderViewer ?? defaultExpoViewer}
     />
   );
 }

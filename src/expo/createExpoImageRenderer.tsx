@@ -5,13 +5,15 @@ import { DEFAULT_BLURHASH } from "../constants";
 import type { CollageImageRenderer } from "../types";
 
 type ExpoImageRendererOptions = {
-  blurhash?: string;
+  /** Set to `null` to disable the blurhash placeholder. */
+  blurhash?: string | null;
 };
 
 export function createExpoImageRenderer(
   options: ExpoImageRendererOptions = {},
 ): CollageImageRenderer {
-  const blurhash = options.blurhash ?? DEFAULT_BLURHASH;
+  const blurhash =
+    options.blurhash === null ? undefined : (options.blurhash ?? DEFAULT_BLURHASH);
 
   return function ExpoCollageImage({
     source,
@@ -29,8 +31,12 @@ export function createExpoImageRenderer(
         cachePolicy="memory-disk"
         allowDownscaling
         priority={priority}
-        placeholder={blurhash}
-        placeholderContentFit="cover"
+        {...(blurhash
+          ? {
+              placeholder: blurhash,
+              placeholderContentFit: "cover" as const,
+            }
+          : {})}
         contentFit="cover"
         transition={transition}
         style={[StyleSheet.absoluteFill, style]}

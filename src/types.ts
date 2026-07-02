@@ -88,6 +88,13 @@ export type ImageCollageProps = {
 export type CollageWithViewerProps = ImageCollageProps & {
   renderViewer: CollageViewerRenderer;
   onImagePress?: (index: number) => void;
+  /**
+   * Prefetch full-resolution images for the viewer while the collage is visible.
+   * Helps the viewer open without a loading flash. @default true
+   */
+  prefetchViewerImages?: boolean;
+  /** Override prefetch strategy (e.g. `expo-image` prefetch on the `/expo` entry). */
+  prefetchImages?: (uris: string[]) => void;
 };
 
 export type ImageViewerProps = {
@@ -115,6 +122,9 @@ export type ImageCollageWithViewerProps = Omit<ImageCollageProps, "onImagePress"
 
 /** Expo-only collage options (`react-native-image-collage/expo`). */
 export type ExpoImageCollageOptions = {
-  blurhash?: string;
+  /** Set to `null` to disable the blurhash placeholder. */
+  blurhash?: string | null;
   prioritizeFirstImage?: boolean;
+  /** Override prefetch strategy. Defaults to `expo-image` prefetch. */
+  prefetchImages?: (uris: string[]) => void;
 };

@@ -1,6 +1,6 @@
 {
   "name": "react-native-image-collage",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Facebook/Instagram-style responsive image collage layouts for React Native and Expo — multi-image grids, +N overflow badge, optional full-screen viewer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,10 +36,16 @@
   "keywords": [
     "react-native",
     "react-native-collage",
+    "react native collage",
+    "react-native-image-collage",
+    "react native image collage",
+    "expo-image-collage",
+    "expo image collage",
     "image-collage",
     "photo-collage",
     "image-grid",
     "photo-grid",
+    "react-native-photo-grid",
     "image-layout",
     "multi-image",
     "image-gallery",
@@ -86,6 +92,9 @@
     "react-native-image-viewing": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

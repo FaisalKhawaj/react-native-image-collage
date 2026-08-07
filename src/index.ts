@@ -30,6 +30,14 @@ export {
 } from "./constants";
 
 export {
+  ABSOLUTE_FILL_STYLE,
+  ABSOLUTE_FILL,
+  getAbsoluteFillStyle,
+  getInlineAbsoluteFillStyle,
+  mergeAbsoluteFillStyle,
+} from "./utils/absoluteFillStyle";
+
+export {
   normalizeImageInput,
   normalizeImages,
   measureImageAspectRatio,

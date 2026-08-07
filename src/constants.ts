@@ -7,5 +7,8 @@ export const DEFAULT_LAYOUT_MAX_HEIGHT = 520;
 export const DEFAULT_MAX_VISIBLE_IMAGES = 4;
 export const ANDROID_RIPPLE = { color: "rgba(0,0,0,0.08)" } as const;
 
+/** @deprecated Use `ABSOLUTE_FILL_STYLE` from `./utils/absoluteFillStyle` instead. */
+export { ABSOLUTE_FILL, ABSOLUTE_FILL_STYLE } from "./utils/absoluteFillStyle";
+
 /** @deprecated Use `DEFAULT_PLACEHOLDER_COLOR` instead. */
 export const DEFAULT_PLACEHOLDER_BG = DEFAULT_PLACEHOLDER_COLOR;

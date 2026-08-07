@@ -10,6 +10,7 @@ import {
 import { renderCollageImage } from "../CollageImage";
 import { CollageTile } from "../CollageTile";
 import { ANDROID_RIPPLE } from "../constants";
+import { ABSOLUTE_FILL_STYLE } from "../utils/absoluteFillStyle";
 import type {
   CollageImageRenderer,
   ImagePriority,
@@ -320,11 +321,9 @@ const styles = StyleSheet.create({
   flexTile: { flex: 1, minWidth: 0, minHeight: 0, alignSelf: "stretch" },
   flexColumn: { flex: 1, minWidth: 0, minHeight: 0 },
   overflowTile: { overflow: "hidden", minHeight: 0, minWidth: 0 },
-  overflowImageContainer: {
-    ...StyleSheet.absoluteFillObject,
-  },
+  overflowImageContainer: ABSOLUTE_FILL_STYLE,
   overflowOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...ABSOLUTE_FILL_STYLE,
     backgroundColor: "rgba(0,0,0,0.35)",
     alignItems: "center",
     justifyContent: "center",

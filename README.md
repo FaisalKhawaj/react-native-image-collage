@@ -36,6 +36,7 @@ yarn add react-native-image-collage
   - [Inside a card or padded container](#14-inside-a-card-or-padded-container)
 - [Entry points](#entry-points)
 - [Props](#props)
+- [Compatibility](#compatibility)
 - [Image input formats](#image-input-formats)
 - [Exports](#exports)
 - [Contributing & issues](#contributing--issues)
@@ -493,6 +494,24 @@ Available on `ImageCollage` and `ImageCollageWithViewer`:
 | `blurhash` | `string \| null` | built-in default | Blurhash placeholder while images load. Pass `null` to disable |
 | `prioritizeFirstImage` | `boolean` | `true` | Load visible tiles with high priority on the first image |
 | `prefetchImages` | `(uris: string[]) => void` | `expo-image` prefetch | Override image prefetch for the viewer (`ImageCollageWithViewer` only) |
+
+---
+
+## Compatibility
+
+| | Supported |
+| --- | --- |
+| **React Native** | `0.72+` (including **0.86+** / Expo SDK 57) |
+| **React** | `18+` / `19+` |
+| **Expo** | Optional [`expo-image`](./expo) entry |
+| **Viewer** | Optional [`react-native-image-viewing`](./viewer) peer |
+
+**React Native 0.86 note:** RN removed `StyleSheet.absoluteFillObject`. This library uses a
+shared absolute-fill helper (`ABSOLUTE_FILL_STYLE`) so collage tiles and the default Expo
+renderer stay visible on new and old React Native versions.
+
+If you upgrade from `0.2.5` or earlier and images in the feed were blank while the
+full-screen viewer still worked, update to **`0.2.6`** or later.
 
 ---
 

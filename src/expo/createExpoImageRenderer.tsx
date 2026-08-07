@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import type { ImageStyle, StyleProp } from "react-native";
 import { DEFAULT_BLURHASH } from "../constants";
+import { mergeAbsoluteFillStyle } from "../utils/absoluteFillStyle";
 import type { CollageImageRenderer } from "../types";
 
 type ExpoImageRendererOptions = {
@@ -39,7 +40,7 @@ export function createExpoImageRenderer(
           : {})}
         contentFit="cover"
         transition={transition}
-        style={[StyleSheet.absoluteFill, style]}
+        style={mergeAbsoluteFillStyle(style) as StyleProp<ImageStyle>}
       />
     );
   };

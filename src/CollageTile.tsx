@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { renderCollageImage } from "./CollageImage";
 import { ANDROID_RIPPLE } from "./constants";
+import { ABSOLUTE_FILL_STYLE } from "./utils/absoluteFillStyle";
 import type {
   CollageImageRenderer,
   ImagePriority,
@@ -69,7 +70,5 @@ export const CollageTile = memo(function CollageTile({
 
 const styles = StyleSheet.create({
   tile: { overflow: "hidden", minHeight: 0, minWidth: 0 },
-  imageContainer: {
-    ...StyleSheet.absoluteFillObject,
-  },
+  imageContainer: ABSOLUTE_FILL_STYLE,
 });

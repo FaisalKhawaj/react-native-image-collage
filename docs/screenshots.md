@@ -1,6 +1,6 @@
 # Adding screenshots to the docs
 
-Screenshots make the package look production-ready (same pattern as libraries like [react-native-popup-menu](https://github.com/instea/react-native-popup-menu/blob/HEAD/doc/examples.md)).
+Screenshots help users understand layouts at a glance. Keep images under `docs/assets/` and embed them in Examples / README.
 
 ## Where files live
 

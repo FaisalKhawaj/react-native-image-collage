@@ -20,9 +20,13 @@ export function useContainerWidth({
 
   const fallbackWidth = Math.max(0, windowWidth - horizontalInset);
   const containerWidth = width ?? measuredWidth ?? fallbackWidth;
+  /** Prefer an explicit width or onLayout measurement for height math (avoids window-width overshoot). */
+  const layoutContentWidth =
+    width ?? (measuredWidth != null ? measuredWidth : 0);
 
   return {
     containerWidth,
+    layoutContentWidth,
     onLayout,
     isMeasured: measuredWidth != null,
   };

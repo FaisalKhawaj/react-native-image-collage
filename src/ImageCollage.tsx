@@ -60,7 +60,7 @@ export const ImageCollage = memo(function ImageCollage({
   const normalizedImages = useMemo(() => normalizeImages(images), [images]);
   const [resolvedImages, setResolvedImages] = useState(normalizedImages);
 
-  const { containerWidth, onLayout } = useContainerWidth({
+  const { containerWidth, layoutContentWidth, onLayout } = useContainerWidth({
     width,
     horizontalInset,
   });
@@ -104,7 +104,7 @@ export const ImageCollage = memo(function ImageCollage({
   }, [normalizedImages]);
 
   const layoutHeight = computeLayoutHeight({
-    contentWidth: containerWidth,
+    contentWidth: layoutContentWidth > 0 ? layoutContentWidth : containerWidth,
     images: resolvedImages,
     height,
     layoutMinHeight,

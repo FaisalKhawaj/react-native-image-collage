@@ -52,6 +52,10 @@ npm install /path/to/react-native-image-collage
 
 Run `npm run build` in the package root after changing library source.
 
+## Documentation screenshots
+
+Layout previews live in `docs/assets/`. To capture real simulator shots and embed them correctly (GitHub + npm), see [docs/screenshots.md](./docs/screenshots.md).
+
 ## Pull requests
 
 PRs are welcome. For larger changes, open an issue first so we can align on the approach.

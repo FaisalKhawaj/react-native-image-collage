@@ -9,6 +9,7 @@ export const ImageViewer = memo(function ImageViewer({
   imageIndex = 0,
   onRequestClose,
   swipeToCloseEnabled = true,
+  pinchToZoomEnabled = true,
   doubleTapToZoomEnabled = true,
   presentationStyle = "fullScreen",
   showCloseButton = true,
@@ -23,7 +24,7 @@ export const ImageViewer = memo(function ImageViewer({
       onRequestClose={onRequestClose}
       presentationStyle={presentationStyle}
       swipeToCloseEnabled={swipeToCloseEnabled}
-      doubleTapToZoomEnabled={doubleTapToZoomEnabled}
+      doubleTapToZoomEnabled={doubleTapToZoomEnabled && pinchToZoomEnabled}
       HeaderComponent={
         showCloseButton
           ? () => (

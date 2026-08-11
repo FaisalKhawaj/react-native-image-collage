@@ -147,13 +147,17 @@ import { ImageCollageWithViewer } from "react-native-image-collage/viewer";
   spacing={4}
   borderRadius={12}
   viewerProps={{
-    swipeToCloseEnabled: true,
+    pinchToZoomEnabled: true,
     doubleTapToZoomEnabled: true,
+    swipeToCloseEnabled: true,
     showCloseButton: true,
     showIndexFooter: true,
   }}
 />
 ```
+
+Pinch + pan are provided by `react-native-image-viewing`. Use `doubleTapToZoomEnabled` /
+`pinchToZoomEnabled` to control double-tap zoom.
 
 ---
 
@@ -175,6 +179,11 @@ import { ImageCollageWithViewer } from "react-native-image-collage/expo";
   blurhash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
   prioritizeFirstImage
   viewerProps={{
+    pinchToZoomEnabled: true,
+    doubleTapToZoomEnabled: true,
+    minScale: 1,
+    maxScale: 3,
+    doubleTapScale: 2.5,
     showCloseButton: true,
     showIndexFooter: true,
   }}
@@ -188,6 +197,10 @@ import { ImageCollage } from "react-native-image-collage/expo";
 
 <ImageCollage images={photoUrls} blurhash={null} />
 ```
+
+Pinch, pan, and double-tap zoom work out of the box on iOS and Android (no
+`react-native-gesture-handler` / Reanimated required). While zoomed, gallery
+swipe is paused so pan does not fight paging.
 
 ---
 

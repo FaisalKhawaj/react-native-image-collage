@@ -74,10 +74,13 @@ Accepts **all `ImageCollage` props**, plus:
 
 ### `viewerProps` — `/viewer`
 
+Uses `react-native-image-viewing` (pinch + pan built-in).
+
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `swipeToCloseEnabled` | `boolean` | `true` | Swipe down to close |
+| `pinchToZoomEnabled` | `boolean` | `true` | When `false`, disables double-tap zoom (library still allows native pinch) |
 | `doubleTapToZoomEnabled` | `boolean` | `true` | Double-tap to zoom |
+| `swipeToCloseEnabled` | `boolean` | `true` | Swipe down to close |
 | `presentationStyle` | `string` | `'fullScreen'` | iOS modal presentation |
 | `showCloseButton` | `boolean` | `true` | Close button |
 | `showIndexFooter` | `boolean` | `true` | `1 / N` footer |
@@ -85,16 +88,35 @@ Accepts **all `ImageCollage` props**, plus:
 
 ### `viewerProps` — `/expo`
 
+Built-in `ExpoImageViewer` with cross-platform pinch + pan (no extra deps).
+
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `pinchToZoomEnabled` | `boolean` | `true` | Pinch-to-zoom + pan when zoomed |
+| `doubleTapToZoomEnabled` | `boolean` | `true` | Double-tap toggles zoom |
+| `minScale` | `number` | `1` | Minimum zoom scale |
+| `maxScale` | `number` | `3` | Maximum zoom scale |
+| `doubleTapScale` | `number` | `2.5` | Scale used on double-tap |
 | `showCloseButton` | `boolean` | `true` | Close button |
 | `showIndexFooter` | `boolean` | `true` | `1 / N` footer (hidden for 1 image) |
 | `closeButtonLabel` | `string` | `'Close'` | Close button label |
 
-> `/expo` does **not** support `swipeToCloseEnabled` or `doubleTapToZoomEnabled`.
+```tsx
+import { ImageCollageWithViewer } from "react-native-image-collage/expo";
+
+<ImageCollageWithViewer
+  images={photoUrls}
+  viewerProps={{
+    pinchToZoomEnabled: true,
+    doubleTapToZoomEnabled: true,
+    minScale: 1,
+    maxScale: 4,
+    doubleTapScale: 2.5,
+  }}
+/>
+```
 
 ---
-
 ## `CollageWithViewer`
 
 Bring your own gallery. Import from `.` or `/expo`.
@@ -131,11 +153,16 @@ Standalone viewers.
 | `visible` | `boolean` | **required** | Open state |
 | `onRequestClose` | `() => void` | **required** | Close handler |
 | `imageIndex` | `number` | `0` | Initial index |
+| `pinchToZoomEnabled` | `boolean` | `true` | Pinch + pan (`/expo`); gates double-tap on `/viewer` |
+| `doubleTapToZoomEnabled` | `boolean` | `true` | Double-tap to zoom |
+| `minScale` | `number` | `1` | Min scale (`/expo` only) |
+| `maxScale` | `number` | `3` | Max scale (`/expo` only) |
+| `doubleTapScale` | `number` | `2.5` | Double-tap scale (`/expo` only) |
 | `showCloseButton` | `boolean` | `true` | Close button |
 | `showIndexFooter` | `boolean` | `true` | Index footer |
 | `closeButtonLabel` | `string` | `'Close'` | Close label |
 
-`/viewer` also: `swipeToCloseEnabled`, `doubleTapToZoomEnabled`, `presentationStyle`.
+`/viewer` also: `swipeToCloseEnabled`, `presentationStyle`.
 
 ---
 
@@ -181,6 +208,7 @@ type CollageViewerRenderer = (
 | `ImageCollageWithViewer` | `/viewer` / `/expo` |
 | `ImageViewer` | `/viewer` |
 | `ExpoImageViewer` | `/expo` |
+| `ZoomableView` | `.` |
 | `CollageTile` | `.` / `/expo` |
 | `CollageImage` | `.` / `/expo` |
 
@@ -194,6 +222,7 @@ import {
   getRemoteUri,
   computeLayoutHeight,
   useContainerWidth,
+  ZoomableView,
 } from "react-native-image-collage";
 
 import { createDefaultViewerRenderer } from "react-native-image-collage/viewer";

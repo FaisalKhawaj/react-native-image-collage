@@ -93,8 +93,8 @@ More examples → **[docs/examples.md](./docs/examples.md)**
 | Import | Requires | Use when |
 |--------|----------|----------|
 | `react-native-image-collage` | — | Default RN / Expo collage |
-| `react-native-image-collage/viewer` | `react-native-image-viewing` | Built-in zoomable viewer |
-| `react-native-image-collage/expo` | `expo-image` | Blurhash, caching, Expo viewer |
+| `react-native-image-collage/viewer` | `react-native-image-viewing` | Zoomable viewer (pinch / pan / double-tap) |
+| `react-native-image-collage/expo` | `expo-image` | Blurhash, caching, Expo viewer + pinch zoom |
 
 ```tsx
 // Expo
@@ -104,6 +104,13 @@ import { ImageCollageWithViewer } from "react-native-image-collage/expo";
   images={photoUrls}
   blurhash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
   prioritizeFirstImage
+  viewerProps={{
+    pinchToZoomEnabled: true,
+    doubleTapToZoomEnabled: true,
+    minScale: 1,
+    maxScale: 3,
+    doubleTapScale: 2.5,
+  }}
 />
 ```
 
@@ -126,7 +133,17 @@ import { ImageCollageWithViewer } from "react-native-image-collage/expo";
 | `renderImage` | `CollageImageRenderer` | RN `Image` | Custom image renderer |
 | `height` / `width` | `number` | auto | Optional fixed size |
 
-Full tables (viewer, Expo, types) → **[docs/api.md](./docs/api.md)**
+### Viewer zoom (`viewerProps` on `ImageCollageWithViewer`)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `pinchToZoomEnabled` | `boolean` | `true` | Pinch + pan (`/expo`); gates double-tap on `/viewer` |
+| `doubleTapToZoomEnabled` | `boolean` | `true` | Double-tap to zoom |
+| `minScale` | `number` | `1` | Min scale (`/expo`) |
+| `maxScale` | `number` | `3` | Max scale (`/expo`) |
+| `doubleTapScale` | `number` | `2.5` | Double-tap scale (`/expo`) |
+
+Full tables → **[docs/api.md](./docs/api.md)** · Examples → **[docs/examples.md](./docs/examples.md)**
 
 ---
 
@@ -136,13 +153,12 @@ Full tables (viewer, Expo, types) → **[docs/api.md](./docs/api.md)**
 |--|--|
 | React Native | `0.72+` (including **0.86+** / Expo SDK 57) |
 | React | `18+` / `19+` |
-| Expo | Optional `/expo` (`expo-image`) |
+| Expo | Optional `/expo` (`expo-image`) — pinch zoom uses core RN only |
 | Viewer | Optional `/viewer` (`react-native-image-viewing`) |
 
-Use **`0.2.6+`** for blank-tile fixes on React Native 0.86+.
+Use **`0.2.6+`** for blank-tile fixes on React Native 0.86+. Pinch zoom lands in the next publish after `0.2.7` (see [CHANGELOG](./CHANGELOG.md)).
 
 ---
-
 ## Contributing
 
 Issues and PRs welcome.

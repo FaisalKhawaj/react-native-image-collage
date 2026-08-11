@@ -56,3 +56,6 @@ export {
   resolveDefaultImageRenderer,
   resolveDefaultViewerRenderer,
 } from "./utils/resolveDefaultImageRenderer";
+
+export { ZoomableView } from "./utils/ZoomableView";
+export type { ZoomableViewProps } from "./utils/ZoomableView";

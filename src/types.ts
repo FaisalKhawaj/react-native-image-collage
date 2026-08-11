@@ -103,7 +103,22 @@ export type ImageViewerProps = {
   imageIndex?: number;
   onRequestClose: () => void;
   swipeToCloseEnabled?: boolean;
+  /**
+   * Enable pinch-to-zoom and pan in the full-screen viewer.
+   * @default true
+   */
+  pinchToZoomEnabled?: boolean;
+  /**
+   * Double-tap to toggle zoom.
+   * @default true
+   */
   doubleTapToZoomEnabled?: boolean;
+  /** Minimum zoom scale. @default 1 */
+  minScale?: number;
+  /** Maximum zoom scale. @default 3 */
+  maxScale?: number;
+  /** Scale applied on double-tap when zooming in. @default 2.5 */
+  doubleTapScale?: number;
   presentationStyle?: "fullScreen" | "pageSheet" | "formSheet" | "overFullScreen";
   showCloseButton?: boolean;
   showIndexFooter?: boolean;
